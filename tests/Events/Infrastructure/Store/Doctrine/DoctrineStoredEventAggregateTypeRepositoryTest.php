@@ -2,6 +2,7 @@
 
 namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
+use Becklyn\Ddd\Doctrine\Testing\DoctrineTestTrait;
 use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateTypeNotFoundException;
@@ -14,9 +15,9 @@ use Prophecy\PhpUnit\ProphecyTrait;
 class DoctrineStoredEventAggregateTypeRepositoryTest extends TestCase
 {
     use ProphecyTrait;
-    use \Becklyn\Ddd\Doctrine\Testing\DoctrineTestTrait;
+    use DoctrineTestTrait;
     use DomainEventTestTrait;
-    use \Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine\DoctrineEventStoreTestTrait;
+    use DoctrineEventStoreTestTrait;
 
     private DoctrineStoredEventAggregateTypeRepository $fixture;
 

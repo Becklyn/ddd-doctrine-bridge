@@ -14,25 +14,14 @@ class DoctrineTransactionManagerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var ObjectProphecy|EntityManagerInterface
-     */
-    private $entityManager;
+    /** @var ObjectProphecy|EntityManagerInterface */
+    private ObjectProphecy $entityManager;
+    /** @var ObjectProphecy|EventManager */
+    private ObjectProphecy $eventManager;
+    /** @var ObjectProphecy|DoctrineEventStore */
+    private ObjectProphecy $eventStore;
 
-    /**
-     * @var ObjectProphecy|EventManager
-     */
-    private $eventManager;
-
-    /**
-     * @var DoctrineTransactionManager
-     */
-    private $fixture;
-
-    /**
-     * @var ObjectProphecy|DoctrineEventStore
-     */
-    private $eventStore;
+    private DoctrineTransactionManager $fixture;
 
     public function setUp(): void
     {

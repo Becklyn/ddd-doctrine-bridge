@@ -17,11 +17,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 class DoctrineEventStore implements EventStore
 {
     private EntityManagerInterface $em;
-
     private DoctrineStoredEventAggregateRepository $aggregateRepository;
-
     private DoctrineStoredEventTypeRepository $eventTypeRepository;
-
     private SerializerInterface $serializer;
 
     private bool $isEnabled;

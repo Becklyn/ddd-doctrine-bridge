@@ -15,15 +15,11 @@ use Illuminate\Support\Collection;
 class DoctrineStoredEventAggregateRepository
 {
     private EntityManagerInterface $em;
-
     private ObjectRepository $repository;
-
     private DoctrineStoredEventAggregateTypeRepository $aggregateTypeRepository;
 
-    /**
-     * @var DoctrineStoredEventAggregate[]|Collection
-     */
-    private $freshlyCreated;
+    /** @var DoctrineStoredEventAggregate[]|Collection */
+    private Collection $freshlyCreated;
 
     public function __construct(EntityManagerInterface $em, DoctrineStoredEventAggregateTypeRepository $aggregateTypeRepository)
     {

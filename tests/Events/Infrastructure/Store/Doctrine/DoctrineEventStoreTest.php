@@ -29,30 +29,16 @@ class DoctrineEventStoreTest extends TestCase
     use ProphecyTrait;
     use DomainEventTestTrait;
 
-    /**
-     * @var ObjectProphecy|EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var ObjectProphecy|ObjectRepository
-     */
-    private $repository;
-
-    /**
-     * @var ObjectProphecy|DoctrineStoredEventAggregateRepository
-     */
-    private $aggregateRepository;
-
-    /**
-     * @var ObjectProphecy|DoctrineStoredEventTypeRepository
-     */
+    /** @var ObjectProphecy|EntityManagerInterface */
+    private ObjectProphecy $em;
+    /** @var ObjectProphecy|ObjectRepository */
+    private ObjectProphecy$repository;
+    /** @var ObjectProphecy|DoctrineStoredEventAggregateRepository */
+    private ObjectProphecy $aggregateRepository;
+    /** @var ObjectProphecy|DoctrineStoredEventTypeRepository */
     private $eventTypeRepository;
-
-    /**
-     * @var ObjectProphecy|SerializerInterface
-     */
-    private $serializer;
+    /** @var ObjectProphecy|SerializerInterface */
+    private ObjectProphecy $serializer;
 
     private DoctrineEventStore $fixture;
 

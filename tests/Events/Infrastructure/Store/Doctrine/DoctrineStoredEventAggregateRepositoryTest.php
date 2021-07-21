@@ -21,20 +21,12 @@ class DoctrineStoredEventAggregateRepositoryTest extends TestCase
     use DomainEventTestTrait;
     use DoctrineEventStoreTestTrait;
 
-    /**
-     * @var ObjectProphecy|EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var ObjectProphecy|ObjectRepository
-     */
-    private $repository;
-
-    /**
-     * @var ObjectProphecy|DoctrineStoredEventAggregateTypeRepository
-     */
-    private $aggregateTypeRepository;
+    /** @var ObjectProphecy|EntityManagerInterface */
+    private ObjectProphecy $em;
+    /** @var ObjectProphecy|ObjectRepository */
+    private ObjectProphecy $repository;
+    /** @var ObjectProphecy|DoctrineStoredEventAggregateTypeRepository */
+    private ObjectProphecy $aggregateTypeRepository;
 
     private DoctrineStoredEventAggregateRepository $fixture;
 

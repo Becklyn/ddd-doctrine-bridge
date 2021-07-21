@@ -15,13 +15,10 @@ use Doctrine\ORM\EntityManagerInterface;
 class DoctrineStoredEventAggregateTypeRepository
 {
     private EntityManagerInterface $em;
-
     private ObjectRepository $repository;
 
-    /**
-     * @var DoctrineStoredEventAggregateType[]|Collection
-     */
-    private $freshlyCreated;
+    /** @var DoctrineStoredEventAggregateType[]|Collection */
+    private Collection $freshlyCreated;
 
     public function __construct(EntityManagerInterface $em)
     {

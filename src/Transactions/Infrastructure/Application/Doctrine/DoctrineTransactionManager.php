@@ -14,9 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class DoctrineTransactionManager implements TransactionManager
 {
     private EntityManagerInterface $entityManager;
-
     private EventManager $eventManager;
-
     private DoctrineEventStore $eventStore;
 
     public function __construct(EntityManagerInterface $entityManager, EventManager $eventManager, DoctrineEventStore  $eventStore)
