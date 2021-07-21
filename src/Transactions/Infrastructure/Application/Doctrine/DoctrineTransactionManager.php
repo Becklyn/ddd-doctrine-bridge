@@ -1,14 +1,14 @@
 <?php
 
-namespace C201\Ddd\Transactions\Infrastructure\Application\Doctrine;
+namespace Becklyn\Ddd\Transactions\Infrastructure\Application\Doctrine;
 
-use C201\Ddd\Transactions\Application\TransactionManager;
-use C201\Ddd\Events\Application\EventManager;
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineEventStore;
+use Becklyn\Ddd\Transactions\Application\TransactionManager;
+use Becklyn\Ddd\Events\Application\EventManager;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineEventStore;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-06-07
  */
 class DoctrineTransactionManager implements TransactionManager

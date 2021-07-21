@@ -1,10 +1,10 @@
 <?php
 
-namespace C201\Ddd\Tests\Transactions\Infrastructure\Application\Doctrine;
+namespace Becklyn\Ddd\Tests\Transactions\Infrastructure\Application\Doctrine;
 
-use C201\Ddd\Events\Application\EventManager;
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineEventStore;
-use C201\Ddd\Transactions\Infrastructure\Application\Doctrine\DoctrineTransactionManager;
+use Becklyn\Ddd\Events\Application\EventManager;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineEventStore;
+use Becklyn\Ddd\Transactions\Infrastructure\Application\Doctrine\DoctrineTransactionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;

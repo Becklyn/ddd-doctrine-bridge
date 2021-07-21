@@ -1,22 +1,22 @@
 <?php
 
-namespace C201\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
+namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
-use C201\Ddd\Events\Testing\DomainEventTestTrait;
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateTypeNotFoundException;
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateTypeRepository;
+use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateTypeNotFoundException;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateTypeRepository;
+use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Tightenco\Collect\Support\Collection;
 
 class DoctrineStoredEventAggregateTypeRepositoryTest extends TestCase
 {
     use ProphecyTrait;
-    use \C201\Ddd\Doctrine\Testing\DoctrineTestTrait;
+    use \Becklyn\Ddd\Doctrine\Testing\DoctrineTestTrait;
     use DomainEventTestTrait;
-    use \C201\Ddd\Tests\Events\Infrastructure\Store\Doctrine\DoctrineEventStoreTestTrait;
+    use \Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine\DoctrineEventStoreTestTrait;
 
     private DoctrineStoredEventAggregateTypeRepository $fixture;
 

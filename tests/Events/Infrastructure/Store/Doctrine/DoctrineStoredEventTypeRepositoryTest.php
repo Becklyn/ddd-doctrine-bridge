@@ -1,15 +1,15 @@
 <?php
 
-namespace C201\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
+namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
-use C201\Ddd\Events\Testing\DomainEventTestTrait;
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventType;
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventTypeRepository;
-use C201\Ddd\Doctrine\Testing\DoctrineTestTrait;
+use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventType;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventTypeRepository;
+use Becklyn\Ddd\Doctrine\Testing\DoctrineTestTrait;
+use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Tightenco\Collect\Support\Collection;
 
 class DoctrineStoredEventTypeRepositoryTest extends TestCase
 {

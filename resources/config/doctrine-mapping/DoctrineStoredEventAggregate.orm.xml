@@ -4,11 +4,11 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregate" table="event_store_aggregates">
+    <entity name="Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregate" table="event_store_aggregates">
 
         <id name="id" column="id" type="string" length="36" />
 
-        <many-to-one field="aggregateType" target-entity="C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType">
+        <many-to-one field="aggregateType" target-entity="Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType">
             <join-column name="aggregate_type_id" referenced-column-name="id" />
         </many-to-one>
 

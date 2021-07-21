@@ -1,11 +1,11 @@
 <?php
 
-namespace C201\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
+namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEvent;
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregate;
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventType;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEvent;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregate;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventType;
 use PHPUnit\Framework\TestCase;
 
 class DoctrineStoredEventTest extends TestCase

@@ -1,12 +1,12 @@
 <?php
 
-namespace C201\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
+namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
-use C201\Ddd\Events\Domain\AbstractDomainEvent;
-use C201\Ddd\Events\Domain\EventId;
+use Becklyn\Ddd\Events\Domain\AbstractDomainEvent;
+use Becklyn\Ddd\Events\Domain\EventId;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-28
  */
 class DoctrineEventStoreTestEvent extends AbstractDomainEvent

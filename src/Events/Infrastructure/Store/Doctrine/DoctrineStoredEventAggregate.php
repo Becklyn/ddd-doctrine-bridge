@@ -1,11 +1,11 @@
 <?php
 
-namespace C201\Ddd\Events\Infrastructure\Store\Doctrine;
+namespace Becklyn\Ddd\Events\Infrastructure\Store\Doctrine;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-21
  *
  * @ORM\Entity
@@ -22,7 +22,7 @@ class DoctrineStoredEventAggregate
     private string $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType")
+     * @ORM\ManyToOne(targetEntity="Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType")
      * @ORM\JoinColumn(name="aggregate_type_id", referencedColumnName="id")
      */
     private DoctrineStoredEventAggregateType $aggregateType;

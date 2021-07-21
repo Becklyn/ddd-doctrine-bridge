@@ -1,28 +1,27 @@
 {
-    "name": "201created/ddd-doctrine-bridge",
-    "description": "Doctrine implementation of event store and transaction manager for use with 201created/ddd-core",
+    "name": "becklyn/ddd-doctrine-bridge",
+    "description": "Doctrine implementation of event store and transaction manager for use with becklyn/ddd-core",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "authors": [
         {
             "name": "Christoph Hautzinger",
-            "email": "ch@201created.de"
+            "email": "ch@becklyn.com"
         },
         {
             "name": "Marko Vujnovic",
-            "email": "ms@201created.de"
+            "email": "ms@becklyn.com"
         }
     ],
     "require": {
         "php": ">=7.4",
-        "201created/ddd-core": "^1.0",
+        "becklyn/ddd-core": "^2.0",
         "doctrine/migrations": "^3.0",
         "doctrine/orm": "^2.6",
         "doctrine/persistence": "^1.3.3|^2.0",
+        "illuminate/collections": "^8.12",
         "ramsey/uuid": "^4.0",
-        "symfony/serializer": "^4.3||^5.0",
-        "tightenco/collect": "^7.4"
+        "symfony/serializer": "^4.3||^5.0"
     },
     "require-dev": {
         "phpspec/prophecy-phpunit": "^2.0",
@@ -30,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "C201\\Ddd\\": "src/"
+            "Becklyn\\Ddd\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "C201\\Ddd\\Tests\\": "tests/"
+            "Becklyn\\Ddd\\Tests\\": "tests/"
         }
     }
 }

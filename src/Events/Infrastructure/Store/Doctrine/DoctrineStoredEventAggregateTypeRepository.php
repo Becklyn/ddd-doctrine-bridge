@@ -1,15 +1,15 @@
 <?php
 
-namespace C201\Ddd\Events\Infrastructure\Store\Doctrine;
+namespace Becklyn\Ddd\Events\Infrastructure\Store\Doctrine;
 
-use C201\Ddd\Events\Domain\DomainEvent;
+use Becklyn\Ddd\Events\Domain\DomainEvent;
+use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
 use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Tightenco\Collect\Support\Collection;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-21
  */
 class DoctrineStoredEventAggregateTypeRepository

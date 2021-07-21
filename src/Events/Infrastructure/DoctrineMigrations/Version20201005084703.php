@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace C201\Ddd\Events\Infrastructure\DoctrineMigrations;
+namespace Becklyn\Ddd\Events\Infrastructure\DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2020-10-05
  */
 final class Version20201005084703 extends AbstractMigration
 {
     public function getDescription() : string
     {
-        return 'Adds event store tables for use with 201created/ddd-doctrine-bridge';
+        return 'Adds event store tables for use with becklyn/ddd-doctrine-bridge';
     }
 
     public function up(Schema $schema) : void

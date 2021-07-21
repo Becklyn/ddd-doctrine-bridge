@@ -1,6 +1,6 @@
 <?php
 
-namespace C201\Ddd\DateTime\Infrastructure\Doctrine;
+namespace Becklyn\Ddd\DateTime\Infrastructure\Doctrine;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -10,7 +10,7 @@ use Doctrine\DBAL\Types\ConversionException;
  * Enables microsecond support for \DateTimeImmutable fields mapped to SQL DATETIME in Doctrine 2. It should be natively available in Doctrine 3. See readme
  * for instructions.
  *
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-23
  */
 class DateTimeImmutableMicrosecondsType extends Type

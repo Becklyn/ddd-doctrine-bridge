@@ -1,8 +1,8 @@
 <?php
 
-namespace C201\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
+namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
-use C201\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
 use PHPUnit\Framework\TestCase;
 
 class DoctrineStoredEventAggregateTypeTest extends TestCase

@@ -1,11 +1,11 @@
 <?php
 
-namespace C201\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
+namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
-use C201\Ddd\Identity\Domain\AbstractAggregateId;
+use Becklyn\Ddd\Identity\Domain\AbstractAggregateId;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-28
  */
 class DoctrineEventStoreTestAggregateId extends AbstractAggregateId

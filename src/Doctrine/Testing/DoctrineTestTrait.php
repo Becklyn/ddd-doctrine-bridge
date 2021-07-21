@@ -1,13 +1,13 @@
 <?php
 
-namespace C201\Ddd\Doctrine\Testing;
+namespace Becklyn\Ddd\Doctrine\Testing;
 
 use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-23
  */
 trait DoctrineTestTrait

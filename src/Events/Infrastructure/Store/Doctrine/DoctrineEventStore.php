@@ -1,17 +1,17 @@
 <?php
 
-namespace C201\Ddd\Events\Infrastructure\Store\Doctrine;
+namespace Becklyn\Ddd\Events\Infrastructure\Store\Doctrine;
 
-use C201\Ddd\Events\Domain\AggregateEventStream;
-use C201\Ddd\Events\Domain\DomainEvent;
-use C201\Ddd\Events\Domain\EventStore;
-use C201\Ddd\Identity\Domain\AggregateId;
+use Becklyn\Ddd\Events\Domain\AggregateEventStream;
+use Becklyn\Ddd\Events\Domain\DomainEvent;
+use Becklyn\Ddd\Events\Domain\EventStore;
+use Becklyn\Ddd\Identity\Domain\AggregateId;
 use Doctrine\ORM\EntityManagerInterface;
+use Illuminate\Support\Collection;
 use Symfony\Component\Serializer\SerializerInterface;
-use Tightenco\Collect\Support\Collection;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-21
  */
 class DoctrineEventStore implements EventStore

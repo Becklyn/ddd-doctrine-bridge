@@ -1,9 +1,9 @@
 <?php
 
-namespace C201\Ddd\Events\Infrastructure\Store\Doctrine;
+namespace Becklyn\Ddd\Events\Infrastructure\Store\Doctrine;
 
 /**
- * @author Marko Vujnovic <mv@201created.de>
+ * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-22
  */
 class DoctrineStoredEventAggregateNotFoundException extends \Exception
