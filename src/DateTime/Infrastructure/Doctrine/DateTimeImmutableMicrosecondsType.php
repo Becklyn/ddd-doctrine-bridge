@@ -31,7 +31,7 @@ class DateTimeImmutableMicrosecondsType extends Type
         $result = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $value);
 
         if (!$result) {
-            $result = date_create($value);
+            $result = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', date_create($value)->format('Y-m-d H:i:s.u'));
         }
 
         if (!$result) {
