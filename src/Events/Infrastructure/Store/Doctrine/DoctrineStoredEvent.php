@@ -7,55 +7,38 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-21
- *
- * @ORM\Entity
- * @ORM\Table(name="event_store")
- * @ORM\HasLifecycleCallbacks()
  */
+#[Orm\Entity]
+#[Orm\Table(name: "event_store")]
+#[Orm\HasLifecycleCallbacks]
 class DoctrineStoredEvent
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="event_id", type="string", length=36)
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
+    #[Orm\Id]
+    #[Orm\Column(name: "event_id", type: "string", length: 36)]
+    #[Orm\GeneratedValue(strategy: "NONE")]
     private string $eventId;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregate")
-     * @ORM\JoinColumn(name="aggregate_id", referencedColumnName="id")
-     */
+    #[Orm\ManyToOne(targetEntity: DoctrineStoredEventAggregate::class)]
+    #[Orm\JoinColumn(name: "aggregate_id", referencedColumnName: "id")]
     private DoctrineStoredEventAggregate $aggregate;
 
-    /**
-     * @ORM\Column(name="version", type="integer", nullable=false)
-     */
+    #[Orm\Column(name: "version", type: "integer", nullable: false)]
     private int $version;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventType")
-     * @ORM\JoinColumn(name="event_type_id", referencedColumnName="id")
-     */
+    #[Orm\ManyToOne(targetEntity: DoctrineStoredEventType::class)]
+    #[Orm\JoinColumn(name: "event_type_id", referencedColumnName: "id")]
     private DoctrineStoredEventType $eventType;
 
-    /**
-     * @ORM\Column(name="raised_ts", type="datetime_immutable", nullable=false)
-     */
+    #[Orm\Column(name: "raised_ts", type: "datetime_immutable", nullable: false)]
     private \DateTimeImmutable $raisedTs;
 
-    /**
-     * @ORM\Column(name="data", type="text", nullable=false)
-     */
+    #[Orm\Column(name: "data", type: "text", nullable: false)]
     private string $data;
 
-    /**
-     * @ORM\Column(name="created_ts", type="datetime_immutable", nullable=false)
-     */
+    #[Orm\Column(name: "created_ts", type: "datetime_immutable", nullable: false)]
     private ?\DateTimeImmutable $createdTs = null;
 
-    /**
-     * @ORM\PrePersist
-     */
+    #[Orm\PrePersist]
     public function prePersist(): void
     {
         $this->createdTs = new \DateTimeImmutable();

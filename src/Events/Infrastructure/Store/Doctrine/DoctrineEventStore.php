@@ -16,25 +16,13 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class DoctrineEventStore implements EventStore
 {
-    private EntityManagerInterface $em;
-    private DoctrineStoredEventAggregateRepository $aggregateRepository;
-    private DoctrineStoredEventTypeRepository $eventTypeRepository;
-    private SerializerInterface $serializer;
-
-    private bool $isEnabled;
-
     public function __construct(
-        EntityManagerInterface $em,
-        DoctrineStoredEventAggregateRepository $aggregateRepository,
-        DoctrineStoredEventTypeRepository $eventTypeRepository,
-        SerializerInterface $serializer,
-        bool $isEnabled
+        private EntityManagerInterface $em,
+        private DoctrineStoredEventAggregateRepository $aggregateRepository,
+        private DoctrineStoredEventTypeRepository $eventTypeRepository,
+        private SerializerInterface $serializer,
+        private bool $isEnabled,
     ) {
-        $this->em = $em;
-        $this->aggregateRepository = $aggregateRepository;
-        $this->eventTypeRepository = $eventTypeRepository;
-        $this->serializer = $serializer;
-        $this->isEnabled = $isEnabled;
     }
 
     public function append(DomainEvent $event): void

@@ -11,12 +11,12 @@ use Becklyn\Ddd\Events\Domain\EventId;
  */
 class DoctrineEventStoreTestEvent extends AbstractDomainEvent
 {
-    private DoctrineEventStoreTestAggregateId $aggregateId;
-
-    public function __construct(EventId $id, \DateTimeImmutable $raisedTs, DoctrineEventStoreTestAggregateId $aggregateId)
-    {
+    public function __construct(
+        EventId $id,
+        \DateTimeImmutable $raisedTs,
+        private DoctrineEventStoreTestAggregateId $aggregateId,
+    ) {
         parent::__construct($id, $raisedTs);
-        $this->aggregateId = $aggregateId;
     }
 
     public function aggregateId(): DoctrineEventStoreTestAggregateId

@@ -13,15 +13,11 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class DoctrineTransactionManager implements TransactionManager
 {
-    private EntityManagerInterface $entityManager;
-    private EventManager $eventManager;
-    private DoctrineEventStore $eventStore;
-
-    public function __construct(EntityManagerInterface $entityManager, EventManager $eventManager, DoctrineEventStore  $eventStore)
-    {
-        $this->entityManager = $entityManager;
-        $this->eventManager = $eventManager;
-        $this->eventStore = $eventStore;
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private EventManager $eventManager,
+        private DoctrineEventStore $eventStore
+    ) {
     }
 
     public function begin(): void

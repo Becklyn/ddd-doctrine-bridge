@@ -12,10 +12,8 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 trait DoctrineTestTrait
 {
-    /** @var ObjectProphecy|EntityManagerInterface */
-    protected ObjectProphecy $em;
-    /** @var ObjectProphecy|ObjectRepository */
-    protected ObjectProphecy $repository;
+    protected ObjectProphecy|EntityManagerInterface $em;
+    protected ObjectProphecy|ObjectRepository $repository;
 
     protected function initDoctrineTestTrait(string $classForRepository = null): void
     {

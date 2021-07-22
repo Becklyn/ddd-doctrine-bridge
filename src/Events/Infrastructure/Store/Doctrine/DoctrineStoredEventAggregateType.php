@@ -7,38 +7,25 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-21
- *
- * @ORM\Entity
- * @ORM\Table(
- *     name="event_store_aggregate_types",
- *     uniqueConstraints={
- *          @ORM\UniqueConstraint(name="uniq_aggregate_type_name", columns={"name"}),
- *     }
- * )
- * @ORM\HasLifecycleCallbacks()
  */
+#[ORM\Entity]
+#[ORM\Table(name:"event_store_aggregate_types")]
+#[ORM\UniqueConstraint(name:"uniq_aggregate_type_name", columns: ["name"])]
+#[Orm\HasLifecycleCallbacks]
 class DoctrineStoredEventAggregateType
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="id", type="string", length=36)
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
+    #[Orm\Id]
+    #[Orm\Column(name: "id", type: "string", length: 36)]
+    #[Orm\GeneratedValue(strategy: "NONE")]
     private string $id;
 
-    /**
-     * @ORM\Column(name="name", type="string", nullable=false)
-     */
+    #[Orm\Column(name: "name", type: "string", nullable: false)]
     private string $name;
 
-    /**
-     * @ORM\Column(name="created_ts", type="datetime_immutable", nullable=false)
-     */
+    #[Orm\Column(name: "created_ts", type: "datetime_immutable", nullable: false)]
     private ?\DateTimeImmutable $createdTs = null;
 
-    /**
-     * @ORM\PrePersist
-     */
+    #[Orm\PrePersist]
     public function prePersist(): void
     {
         $this->createdTs = new \DateTimeImmutable();
