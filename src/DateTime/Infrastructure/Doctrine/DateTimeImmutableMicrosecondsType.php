@@ -2,13 +2,14 @@
 
 namespace Becklyn\Ddd\DateTime\Infrastructure\Doctrine;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
- * Enables microsecond support for \DateTimeImmutable fields mapped to SQL DATETIME in Doctrine 2. It should be natively available in Doctrine 3. See readme
- * for instructions.
+ * Enables microsecond support for \DateTimeImmutable fields mapped to MySQL DATETIME and Oracle TIMESTAMP. The MySQL support should be natively available in
+ * Doctrine 3 but Doctrine 2 and Oracle still require this. See readme for instructions.
  *
  * @author Marko Vujnovic <mv@becklyn.com>
  * @since  2019-08-23
@@ -19,6 +20,10 @@ class DateTimeImmutableMicrosecondsType extends Type
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
+        if ($platform instanceof OraclePlatform) {
+            return'TIMESTAMP(6)';
+        }
+
         return isset($fieldDeclaration['version']) && $fieldDeclaration['version'] == true ? 'TIMESTAMP' : 'DATETIME(6)';
     }
 

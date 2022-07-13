@@ -1,3 +1,8 @@
+2.2.0
+=====
+
+*   (feature) Added \DateTimeImmutable microsecond support for Oracle
+
 2.1.2
 =====
 

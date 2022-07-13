@@ -15,4 +15,4 @@ To have Doctrine ORM 2 persist microseconds in the database as part of the times
 use Doctrine\DBAL\Types\Type;
 Type::overrideType('datetime_immutable', 'Becklyn\Ddd\DateTime\Infrastructure\Doctrine\DateTimeImmutableMicrosecondsType'); 
 ```
-This should no longer be necessary with Doctrine ORM 3 as it should incorporate this feature natively.
+Only MySQL and Oracle are currently supported. For MySQL, this should no longer be necessary with Doctrine ORM 3 as it should incorporate this feature natively. For Oracle, activating the `\Becklyn\Ddd\DateTime\Infrastructure\Doctrine\MicrosecondsOracleSessionInit` Doctrine listener is required as well.
