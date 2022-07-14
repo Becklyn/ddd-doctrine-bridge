@@ -1,3 +1,8 @@
+2.2.1
+=====
+
+*   (feature) Added migrations for Oracle
+
 2.2.0
 =====
 
