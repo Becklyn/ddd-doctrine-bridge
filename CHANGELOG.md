@@ -1,3 +1,8 @@
+2.2.2
+=====
+
+* (bug) Fixed migration requirements to work as intended.
+
 2.2.1
 =====
 
