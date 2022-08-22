@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[Orm\Entity]
 #[Orm\Table(name: "event_store")]
 #[Orm\HasLifecycleCallbacks]
+#[Orm\Index(name: "correlation_id_idx", columns: ["correlation_id"])]
+#[Orm\Index(name: "causation_id_idx", columns: ["causation_id"])]
 class DoctrineStoredEvent
 {
     #[Orm\Id]
@@ -32,6 +34,12 @@ class DoctrineStoredEvent
     #[Orm\Column(name: "raised_ts", type: "datetime_immutable", nullable: false)]
     private \DateTimeImmutable $raisedTs;
 
+    #[Orm\Column(name: "correlation_id", type: "string", length: 36, nullable: false)]
+    private string $correlationId;
+
+    #[Orm\Column(name: "causation_id", type: "string", length: 36, nullable: false)]
+    private string $causationId;
+
     #[Orm\Column(name: "data", type: "text", nullable: false)]
     private string $data;
 
@@ -50,6 +58,8 @@ class DoctrineStoredEvent
         int $version,
         DoctrineStoredEventType $eventType,
         \DateTimeImmutable $raisedTs,
+        string $correlationId,
+        string $causationId,
         string $data
     ) {
         $this->eventId = $eventId;
@@ -57,6 +67,8 @@ class DoctrineStoredEvent
         $this->version = $version;
         $this->eventType = $eventType;
         $this->raisedTs = $raisedTs;
+        $this->correlationId = $correlationId;
+        $this->causationId = $causationId;
         $this->data = $data;
     }
 
@@ -83,6 +95,16 @@ class DoctrineStoredEvent
     public function raisedTs(): \DateTimeImmutable
     {
         return $this->raisedTs;
+    }
+
+    public function correlationId(): string
+    {
+        return $this->correlationId;
+    }
+
+    public function causationId(): string
+    {
+        return $this->causationId;
     }
 
     public function data(): string

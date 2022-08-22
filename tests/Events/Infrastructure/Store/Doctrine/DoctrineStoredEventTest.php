@@ -18,12 +18,16 @@ class DoctrineStoredEventTest extends TestCase
         $eventType = $this->givenADoctrineStoredEventType();
         $raisedTs = $this->givenARaisedTs();
         $data = $this->givenSerializedEventData();
-        $storedEvent = new DoctrineStoredEvent($eventId, $aggregate, $version, $eventType, $raisedTs, $data);
+        $correlationId = $this->givenAnEventId();
+        $causationId = $this->givenAnEventId();
+        $storedEvent = new DoctrineStoredEvent($eventId, $aggregate, $version, $eventType, $raisedTs, $correlationId, $causationId, $data);
         $this->assertSame($eventId, $storedEvent->eventId());
         $this->assertSame($aggregate, $storedEvent->aggregate());
         $this->assertSame($version, $storedEvent->version());
         $this->assertSame($eventType, $storedEvent->eventType());
         $this->assertSame($raisedTs, $storedEvent->raisedTs());
+        $this->assertSame($correlationId, $storedEvent->correlationId());
+        $this->assertSame($causationId, $storedEvent->causationId());
         $this->assertSame($data, $storedEvent->data());
     }
 
@@ -65,6 +69,8 @@ class DoctrineStoredEventTest extends TestCase
             $this->givenAnAggregateVersion(),
             $this->givenADoctrineStoredEventType(),
             $this->givenARaisedTs(),
+            $this->givenAnEventId(),
+            $this->givenAnEventId(),
             $this->givenSerializedEventData()
         );
 

@@ -60,6 +60,8 @@ class DoctrineEventStoreTest extends TestCase
         $eventProphecy = $this->prophesize(DomainEvent::class);
         $eventProphecy->id()->willReturn($this->givenAnEventId());
         $eventProphecy->raisedTs()->willReturn($this->givenARaisedTs());
+        $eventProphecy->correlationId()->willReturn($this->givenAnEventId());
+        $eventProphecy->causationId()->willReturn($this->givenAnEventId());
         $event = $eventProphecy->reveal();
 
         $aggregate = $this->prophesize(DoctrineStoredEventAggregate::class);
@@ -88,6 +90,9 @@ class DoctrineEventStoreTest extends TestCase
                 $storedEvent->raisedTs() === $event->raisedTs() &&
                 $storedEvent->aggregate() === $aggregate->reveal() &&
                 $storedEvent->eventType() === $eventType &&
+                $storedEvent->version() === $incrementedVersion &&
+                $storedEvent->correlationId() === $event->correlationId()->asString() &&
+                $storedEvent->causationId() === $event->causationId()->asString() &&
                 $storedEvent->version() === $incrementedVersion &&
                 $storedEvent->data() === $serializedEvent;
         }))->shouldBeCalledTimes(1);

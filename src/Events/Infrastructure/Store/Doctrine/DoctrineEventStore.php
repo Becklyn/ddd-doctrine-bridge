@@ -37,7 +37,16 @@ class DoctrineEventStore implements EventStore
         $data = $this->serializer->serialize($event, 'json');
 
         $aggregate->incrementVersion();
-        $storedEvent = new DoctrineStoredEvent($event->id()->asString(), $aggregate, $aggregate->version(), $eventType, $event->raisedTs(), $data);
+        $storedEvent = new DoctrineStoredEvent(
+            $event->id()->asString(),
+            $aggregate,
+            $aggregate->version(),
+            $eventType,
+            $event->raisedTs(),
+            $event->correlationId()->asString(),
+            $event->causationId()->asString(),
+            $data
+        );
         $this->em->persist($storedEvent);
     }
 

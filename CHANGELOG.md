@@ -1,3 +1,8 @@
+3.0.0
+=======
+
+* (bc) Added support for event correlation and causation IDs.
+
 2.2.2
 =====
 
