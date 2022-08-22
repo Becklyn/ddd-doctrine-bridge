@@ -6,6 +6,11 @@
 
     <entity name="Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEvent" table="event_store">
 
+        <indexes>
+            <index name="correlation_id_idx" columns="correlation_id"/>
+            <index name="causation_id_idx" columns="causation_id"/>
+        </indexes>
+
         <id name="eventId" column="event_id" type="string" length="36" />
 
         <many-to-one field="aggregate" target-entity="Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregate">
@@ -19,6 +24,10 @@
         </many-to-one>
 
         <field name="raisedTs" column="raised_ts" type="datetime_immutable" nullable="false" />
+
+        <field name="correlationId" column="correlation_id" type="string" length="36" nullable="false" />
+
+        <field name="causationId" column="causation_id" type="string" length="36" nullable="false" />
 
         <field name="data" column="data" type="text" nullable="false" />
 
