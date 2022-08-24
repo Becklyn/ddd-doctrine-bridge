@@ -1,15 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Events\Infrastructure\Store\Doctrine;
 
 use Becklyn\Ddd\Events\Domain\DomainEvent;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
-use Doctrine\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2019-08-21
  */
 class DoctrineStoredEventTypeRepository
@@ -27,21 +28,24 @@ class DoctrineStoredEventTypeRepository
         $this->freshlyCreated = Collection::make();
     }
 
-    public function findOneOrCreate(DomainEvent $event): DoctrineStoredEventType
+    public function findOneOrCreate(DomainEvent $event) : DoctrineStoredEventType
     {
-        $freshlyCreatedMatch = $this->freshlyCreated->filter(fn(DoctrineStoredEventType $element) => $element->name() === get_class($event));
+        $freshlyCreatedMatch = $this->freshlyCreated->filter(fn(DoctrineStoredEventType $element) => $element->name() === \get_class($event));
+
         if ($freshlyCreatedMatch->count() > 1) {
-            $className = get_class($event);
-            throw new \Exception("Found more than one event type with name '$className'");
+            $className = \get_class($event);
+            throw new \Exception("Found more than one event type with name '{$className}'");
         }
 
-        if ($freshlyCreatedMatch->count() === 1) {
+        if (1 === $freshlyCreatedMatch->count()) {
             return $freshlyCreatedMatch->first();
         }
 
-        $eventType = $this->repository->findOneBy(['name' => get_class($event)]);
-        if ($eventType === null) {
-            $eventType = new DoctrineStoredEventType(Uuid::uuid4(), get_class($event));
+        /** @var ?DoctrineStoredEventType $eventType */
+        $eventType = $this->repository->findOneBy(['name' => \get_class($event)]);
+
+        if (null === $eventType) {
+            $eventType = new DoctrineStoredEventType(Uuid::uuid4()->toString(), \get_class($event));
             $this->em->persist($eventType);
             $this->freshlyCreated->push($eventType);
         }
@@ -49,7 +53,7 @@ class DoctrineStoredEventTypeRepository
         return $eventType;
     }
 
-    public function clearFreshlyCreated(): void
+    public function clearFreshlyCreated() : void
     {
         $this->freshlyCreated = Collection::make();
     }

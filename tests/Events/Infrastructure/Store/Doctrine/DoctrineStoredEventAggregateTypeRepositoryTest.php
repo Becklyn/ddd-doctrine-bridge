@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
 use Becklyn\Ddd\Doctrine\Testing\DoctrineTestTrait;
-use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateTypeNotFoundException;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateTypeRepository;
+use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -21,17 +21,17 @@ class DoctrineStoredEventAggregateTypeRepositoryTest extends TestCase
 
     private DoctrineStoredEventAggregateTypeRepository $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->initDoctrineTestTrait(DoctrineStoredEventAggregateType::class);
         $this->fixture = new DoctrineStoredEventAggregateTypeRepository($this->em->reveal());
     }
 
-    public function testFindOneOrCreateThrowsExceptionIfThereIsMoreThanOneFreshlyCreatedMatch(): void
+    public function testFindOneOrCreateThrowsExceptionIfThereIsMoreThanOneFreshlyCreatedMatch() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
-        $freshlyCreatedType1 = new DoctrineStoredEventAggregateType(uniqid(), $event->aggregateType());
-        $freshlyCreatedType2 = new DoctrineStoredEventAggregateType(uniqid(), $event->aggregateType());
+        $freshlyCreatedType1 = new DoctrineStoredEventAggregateType(\uniqid(), $event->aggregateType());
+        $freshlyCreatedType2 = new DoctrineStoredEventAggregateType(\uniqid(), $event->aggregateType());
 
         $classReflection = new \ReflectionClass(DoctrineStoredEventAggregateTypeRepository::class);
         $propertyReflection = $classReflection->getProperty('freshlyCreated');
@@ -42,10 +42,10 @@ class DoctrineStoredEventAggregateTypeRepositoryTest extends TestCase
         $this->fixture->findOneOrCreate($event);
     }
 
-    public function testFindOneOrCreateReturnsFreshlyCreatedMatch(): void
+    public function testFindOneOrCreateReturnsFreshlyCreatedMatch() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
-        $freshlyCreatedType = new DoctrineStoredEventAggregateType(uniqid(), $event->aggregateType());
+        $freshlyCreatedType = new DoctrineStoredEventAggregateType(\uniqid(), $event->aggregateType());
 
         $classReflection = new \ReflectionClass(DoctrineStoredEventAggregateTypeRepository::class);
         $propertyReflection = $classReflection->getProperty('freshlyCreated');
@@ -54,19 +54,19 @@ class DoctrineStoredEventAggregateTypeRepositoryTest extends TestCase
 
         $this->repository->findOneBy(Argument::any())->shouldNotBeCalled();
 
-        $this->assertSame($freshlyCreatedType, $this->fixture->findOneOrCreate($event));
+        self::assertSame($freshlyCreatedType, $this->fixture->findOneOrCreate($event));
     }
 
-    public function testFindOneOrCreateReturnsResultFromRepository(): void
+    public function testFindOneOrCreateReturnsResultFromRepository() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
-        $aggregateType = new DoctrineStoredEventAggregateType(uniqid(), $event->aggregateType());
+        $aggregateType = new DoctrineStoredEventAggregateType(\uniqid(), $event->aggregateType());
         $this->repository->findOneBy(['name' => $aggregateType->name()])->willReturn($aggregateType);
         $this->repository->findOneBy(['name' => $aggregateType->name()])->shouldBeCalledTimes(1);
-        $this->assertSame($aggregateType, $this->fixture->findOneOrCreate($event));
+        self::assertSame($aggregateType, $this->fixture->findOneOrCreate($event));
     }
 
-    public function testFindOneOrCreateCreatesPersistsAndReturnsNewAggregateType(): void
+    public function testFindOneOrCreateCreatesPersistsAndReturnsNewAggregateType() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
         $this->repository->findOneBy(['name' => $event->aggregateType()])->willReturn(null);
@@ -74,10 +74,10 @@ class DoctrineStoredEventAggregateTypeRepositoryTest extends TestCase
             return $aggregateType->name() === $event->aggregateType();
         }))->shouldBeCalledTimes(1);
         $result = $this->fixture->findOneOrCreate($event);
-        $this->assertEquals($result->name(), $event->aggregateType());
+        self::assertEquals($result->name(), $event->aggregateType());
     }
 
-    public function testFindOrCreateReturnsFreshlyCreatedAggregateTypeOnSecondCall(): void
+    public function testFindOrCreateReturnsFreshlyCreatedAggregateTypeOnSecondCall() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
         $this->repository->findOneBy(['name' => $event->aggregateType()])->willReturn(null);
@@ -88,14 +88,14 @@ class DoctrineStoredEventAggregateTypeRepositoryTest extends TestCase
         $this->repository->findOneBy(['name' => $event->aggregateType()])->shouldBeCalledTimes(1);
         $this->fixture->findOneOrCreate($event);
         $result = $this->fixture->findOneOrCreate($event);
-        $this->assertEquals($result->name(), $event->aggregateType());
+        self::assertEquals($result->name(), $event->aggregateType());
     }
 
-    public function testFindOneThrowsExceptionIfThereIsMoreThanOneFreshlyCreatedMatch(): void
+    public function testFindOneThrowsExceptionIfThereIsMoreThanOneFreshlyCreatedMatch() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
-        $freshlyCreatedType1 = new DoctrineStoredEventAggregateType(uniqid(), $event->aggregateType());
-        $freshlyCreatedType2 = new DoctrineStoredEventAggregateType(uniqid(), $event->aggregateType());
+        $freshlyCreatedType1 = new DoctrineStoredEventAggregateType(\uniqid(), $event->aggregateType());
+        $freshlyCreatedType2 = new DoctrineStoredEventAggregateType(\uniqid(), $event->aggregateType());
 
         $classReflection = new \ReflectionClass(DoctrineStoredEventAggregateTypeRepository::class);
         $propertyReflection = $classReflection->getProperty('freshlyCreated');
@@ -106,10 +106,10 @@ class DoctrineStoredEventAggregateTypeRepositoryTest extends TestCase
         $this->fixture->findOne($event->aggregateType());
     }
 
-    public function testFindOneReturnsFreshlyCreatedMatch(): void
+    public function testFindOneReturnsFreshlyCreatedMatch() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
-        $freshlyCreatedType = new DoctrineStoredEventAggregateType(uniqid(), $event->aggregateType());
+        $freshlyCreatedType = new DoctrineStoredEventAggregateType(\uniqid(), $event->aggregateType());
 
         $classReflection = new \ReflectionClass(DoctrineStoredEventAggregateTypeRepository::class);
         $propertyReflection = $classReflection->getProperty('freshlyCreated');
@@ -118,19 +118,19 @@ class DoctrineStoredEventAggregateTypeRepositoryTest extends TestCase
 
         $this->repository->findOneBy(Argument::any())->shouldNotBeCalled();
 
-        $this->assertSame($freshlyCreatedType, $this->fixture->findOne($event->aggregateType()));
+        self::assertSame($freshlyCreatedType, $this->fixture->findOne($event->aggregateType()));
     }
 
-    public function testFindOneReturnsResultFromRepository(): void
+    public function testFindOneReturnsResultFromRepository() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
-        $aggregateType = new DoctrineStoredEventAggregateType(uniqid(), $event->aggregateType());
+        $aggregateType = new DoctrineStoredEventAggregateType(\uniqid(), $event->aggregateType());
         $this->repository->findOneBy(['name' => $aggregateType->name()])->willReturn($aggregateType);
         $this->repository->findOneBy(['name' => $aggregateType->name()])->shouldBeCalledTimes(1);
-        $this->assertSame($aggregateType, $this->fixture->findOne($event->aggregateType()));
+        self::assertSame($aggregateType, $this->fixture->findOne($event->aggregateType()));
     }
 
-    public function testFindOneThrowsDoctrineStoredEventAggregateTypeNotFoundExceptionIfTypeIsNotFreshlyPersistedOrFoundInRepository(): void
+    public function testFindOneThrowsDoctrineStoredEventAggregateTypeNotFoundExceptionIfTypeIsNotFreshlyPersistedOrFoundInRepository() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
         $this->repository->findOneBy(['name' => $event->aggregateType()])->willReturn(null);
@@ -138,9 +138,9 @@ class DoctrineStoredEventAggregateTypeRepositoryTest extends TestCase
         $this->fixture->findOne($event->aggregateType());
     }
 
-    public function testClearFreshlyCreated(): void
+    public function testClearFreshlyCreated() : void
     {
         $this->fixture->clearFreshlyCreated();
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 }

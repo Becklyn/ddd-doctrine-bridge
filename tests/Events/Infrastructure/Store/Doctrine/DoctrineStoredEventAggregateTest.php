@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
@@ -8,18 +8,18 @@ use PHPUnit\Framework\TestCase;
 
 class DoctrineStoredEventAggregateTest extends TestCase
 {
-    public function testGettersReturnArgumentsPassedToConstructor(): void
+    public function testGettersReturnArgumentsPassedToConstructor() : void
     {
         $id = $this->givenADoctrineStoredEventAggregateId();
         $type = $this->givenADoctrineStoredEventAggregateType();
         $version = $this->givenADoctrineStoredEventAggregateVersion();
         $aggregate = new DoctrineStoredEventAggregate($id, $type, $version);
-        $this->assertEquals($id, $aggregate->id());
-        $this->assertSame($type, $aggregate->aggregateType());
-        $this->assertEquals($version, $aggregate->version());
+        self::assertEquals($id, $aggregate->id());
+        self::assertSame($type, $aggregate->aggregateType());
+        self::assertEquals($version, $aggregate->version());
     }
 
-    public function testIncrementVersion(): void
+    public function testIncrementVersion() : void
     {
         $startingVersion = $this->givenADoctrineStoredEventAggregateVersion();
         $aggregate = new DoctrineStoredEventAggregate(
@@ -27,27 +27,27 @@ class DoctrineStoredEventAggregateTest extends TestCase
             $this->givenADoctrineStoredEventAggregateType(),
             $startingVersion
         );
-        $this->assertEquals($startingVersion, $aggregate->version());
+        self::assertEquals($startingVersion, $aggregate->version());
         $aggregate->incrementVersion();
-        $this->assertEquals($startingVersion + 1, $aggregate->version());
+        self::assertEquals($startingVersion + 1, $aggregate->version());
     }
 
-    private function givenADoctrineStoredEventAggregateId(): string
+    private function givenADoctrineStoredEventAggregateId() : string
     {
-        return uniqid();
+        return \uniqid();
     }
 
-    private function givenADoctrineStoredEventAggregateType(): DoctrineStoredEventAggregateType
+    private function givenADoctrineStoredEventAggregateType() : DoctrineStoredEventAggregateType
     {
-        return new DoctrineStoredEventAggregateType(uniqid(), uniqid());
+        return new DoctrineStoredEventAggregateType(\uniqid(), \uniqid());
     }
 
-    private function givenADoctrineStoredEventAggregateVersion(): int
+    private function givenADoctrineStoredEventAggregateVersion() : int
     {
-        return random_int(1, 1000);
+        return \random_int(1, 1000);
     }
 
-    public function testPrePersistSetsCreatedTsAndUpdatedTs(): void
+    public function testPrePersistSetsCreatedTsAndUpdatedTs() : void
     {
         $aggregate = new DoctrineStoredEventAggregate(
             $this->givenADoctrineStoredEventAggregateId(),
@@ -61,14 +61,14 @@ class DoctrineStoredEventAggregateTest extends TestCase
         $updatedTsReflection = $classReflection->getProperty('updatedTs');
         $updatedTsReflection->setAccessible(true);
 
-        $this->assertNull($createdTsReflection->getValue($aggregate));
-        $this->assertNull($updatedTsReflection->getValue($aggregate));
+        self::assertNull($createdTsReflection->getValue($aggregate));
+        self::assertNull($updatedTsReflection->getValue($aggregate));
         $aggregate->prePersist();
-        $this->assertNotNull($createdTsReflection->getValue($aggregate));
-        $this->assertNotNull($updatedTsReflection->getValue($aggregate));
+        self::assertNotNull($createdTsReflection->getValue($aggregate));
+        self::assertNotNull($updatedTsReflection->getValue($aggregate));
     }
 
-    public function testPreUpdateSetsUpdatedTsButNotCreatedTs(): void
+    public function testPreUpdateSetsUpdatedTsButNotCreatedTs() : void
     {
         $aggregate = new DoctrineStoredEventAggregate(
             $this->givenADoctrineStoredEventAggregateId(),
@@ -88,8 +88,8 @@ class DoctrineStoredEventAggregateTest extends TestCase
 
         $aggregate->preUpdate();
 
-        $this->assertSame($startingCreatedTs, $createdTsReflection->getValue($aggregate));
-        $this->assertNotSame($startingUpdatedTs, $updatedTsReflection->getValue($aggregate));
-        $this->assertNotNull($updatedTsReflection->getValue($aggregate));
+        self::assertSame($startingCreatedTs, $createdTsReflection->getValue($aggregate));
+        self::assertNotSame($startingUpdatedTs, $updatedTsReflection->getValue($aggregate));
+        self::assertNotNull($updatedTsReflection->getValue($aggregate));
     }
 }

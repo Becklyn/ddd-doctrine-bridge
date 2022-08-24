@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Events\Infrastructure\Store\Doctrine;
 
@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2019-08-21
  */
 #[ORM\Entity]
@@ -26,7 +27,7 @@ class DoctrineStoredEventAggregateType
     private ?\DateTimeImmutable $createdTs = null;
 
     #[Orm\PrePersist]
-    public function prePersist(): void
+    public function prePersist() : void
     {
         $this->createdTs = new \DateTimeImmutable();
     }
@@ -37,12 +38,12 @@ class DoctrineStoredEventAggregateType
         $this->name = $name;
     }
 
-    public function id(): string
+    public function id() : string
     {
         return $this->id;
     }
 
-    public function name(): string
+    public function name() : string
     {
         return $this->name;
     }

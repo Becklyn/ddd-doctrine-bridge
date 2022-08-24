@@ -1,17 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\DateTime\Infrastructure\Doctrine;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * Enables microsecond support for \DateTimeImmutable fields mapped to MySQL DATETIME and Oracle TIMESTAMP. The MySQL support should be natively available in
  * Doctrine 3 but Doctrine 2 and Oracle still require this. See readme for instructions.
  *
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2019-08-23
  */
 class DateTimeImmutableMicrosecondsType extends Type
@@ -24,19 +25,19 @@ class DateTimeImmutableMicrosecondsType extends Type
             return'TIMESTAMP(6)';
         }
 
-        return isset($fieldDeclaration['version']) && $fieldDeclaration['version'] == true ? 'TIMESTAMP' : 'DATETIME(6)';
+        return isset($fieldDeclaration['version']) && true == $fieldDeclaration['version'] ? 'TIMESTAMP' : 'DATETIME(6)'; // @phpstan-ignore-line
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value === null || $value instanceof \DateTimeInterface) {
+        if (null === $value || $value instanceof \DateTimeInterface) {
             return $value;
         }
 
         $result = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $value);
 
         if (!$result) {
-            $result = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', date_create($value)->format('Y-m-d H:i:s.u'));
+            $result = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', \date_create($value)->format('Y-m-d H:i:s.u'));
         }
 
         if (!$result) {
@@ -56,7 +57,7 @@ class DateTimeImmutableMicrosecondsType extends Type
             return $value->format('Y-m-d H:i:s.u');
         }
 
-        throw ConversionException::conversionFailedInvalidType($value, $this->getName(), ['null', '\DateTimeImmutable']);
+        throw ConversionException::conversionFailedInvalidType($value, $this->getName(), ['null', '\\DateTimeImmutable']);
     }
 
     public function getName()

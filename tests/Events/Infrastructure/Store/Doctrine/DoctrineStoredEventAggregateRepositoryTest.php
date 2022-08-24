@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
-use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregate;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateRepository;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateTypeRepository;
-use Doctrine\Persistence\ObjectRepository;
+use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -27,7 +27,7 @@ class DoctrineStoredEventAggregateRepositoryTest extends TestCase
 
     private DoctrineStoredEventAggregateRepository $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->em = $this->prophesize(EntityManagerInterface::class);
         $this->repository = $this->prophesize(ObjectRepository::class);
@@ -37,7 +37,7 @@ class DoctrineStoredEventAggregateRepositoryTest extends TestCase
         $this->fixture = new DoctrineStoredEventAggregateRepository($this->em->reveal(), $this->aggregateTypeRepository->reveal());
     }
 
-    public function testFindOneOrCreateThrowsExceptionIfMoreThanOneResultIsFoundInTheFreshlyCreatedCollection(): void
+    public function testFindOneOrCreateThrowsExceptionIfMoreThanOneResultIsFoundInTheFreshlyCreatedCollection() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
         $aggregateType = new DoctrineStoredEventAggregateType('foo', $event->aggregateType());
@@ -55,7 +55,7 @@ class DoctrineStoredEventAggregateRepositoryTest extends TestCase
         $this->fixture->findOneOrCreate($event);
     }
 
-    public function testFindOneOrCreateReturnsResultFromFreshlyCreatedCollectionIfOneIsFound(): void
+    public function testFindOneOrCreateReturnsResultFromFreshlyCreatedCollectionIfOneIsFound() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
         $aggregateType = new DoctrineStoredEventAggregateType('foo', $event->aggregateType());
@@ -70,10 +70,10 @@ class DoctrineStoredEventAggregateRepositoryTest extends TestCase
 
         $this->repository->findOneBy(Argument::any())->shouldNotBeCalled();
 
-        $this->assertSame($freshlyCreatedAggregate, $this->fixture->findOneOrCreate($event));
+        self::assertSame($freshlyCreatedAggregate, $this->fixture->findOneOrCreate($event));
     }
 
-    public function testFindOneOrCreateCreatesNewAggregatePersistsAndReturnsItIfExistingOneIsNotFound(): void
+    public function testFindOneOrCreateCreatesNewAggregatePersistsAndReturnsItIfExistingOneIsNotFound() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
         $aggregateType = new DoctrineStoredEventAggregateType('foo', $event->aggregateType());
@@ -83,17 +83,17 @@ class DoctrineStoredEventAggregateRepositoryTest extends TestCase
 
         $this->em->persist(Argument::that(function (DoctrineStoredEventAggregate $aggregate) use ($event, $aggregateType) {
             return $aggregate->aggregateType() === $aggregateType &&
-                $aggregate->version() === 0 &&
+                0 === $aggregate->version() &&
                 $aggregate->id() === $event->aggregateId()->asString();
         }))->shouldBeCalledTimes(1);
 
         $result = $this->fixture->findOneOrCreate($event);
-        $this->assertSame($aggregateType, $result->aggregateType());
-        $this->assertEquals(0, $result->version());
-        $this->assertEquals($result->id(), $event->aggregateId()->asString());
+        self::assertSame($aggregateType, $result->aggregateType());
+        self::assertEquals(0, $result->version());
+        self::assertEquals($result->id(), $event->aggregateId()->asString());
     }
 
-    public function testFindOneOrCreateReturnsFreshlyCreatedAggregateOnSecondCall(): void
+    public function testFindOneOrCreateReturnsFreshlyCreatedAggregateOnSecondCall() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
         $aggregateType = new DoctrineStoredEventAggregateType('foo', $event->aggregateType());
@@ -105,12 +105,12 @@ class DoctrineStoredEventAggregateRepositoryTest extends TestCase
 
         $this->fixture->findOneOrCreate($event);
         $result = $this->fixture->findOneOrCreate($event);
-        $this->assertSame($aggregateType, $result->aggregateType());
-        $this->assertEquals(0, $result->version());
-        $this->assertEquals($result->id(), $event->aggregateId()->asString());
+        self::assertSame($aggregateType, $result->aggregateType());
+        self::assertEquals(0, $result->version());
+        self::assertEquals($result->id(), $event->aggregateId()->asString());
     }
 
-    public function testFindOneOrCreateReturnsResultFromRepository(): void
+    public function testFindOneOrCreateReturnsResultFromRepository() : void
     {
         $event = new DoctrineEventStoreTestEvent($this->givenAnEventId(), $this->givenARaisedTs(), $this->givenAnAggregateId());
         $aggregateType = new DoctrineStoredEventAggregateType('foo', $event->aggregateType());
@@ -119,10 +119,10 @@ class DoctrineStoredEventAggregateRepositoryTest extends TestCase
         $aggregate = new DoctrineStoredEventAggregate($event->aggregateId()->asString(), $aggregateType, 2);
         $this->repository->findOneBy(['id' => $event->aggregateId()->asString(), 'aggregateType' => $aggregateType->id()])->willReturn($aggregate);
 
-        $this->assertSame($aggregate, $this->fixture->findOneOrCreate($event));
+        self::assertSame($aggregate, $this->fixture->findOneOrCreate($event));
     }
 
-    public function testClearFreshlyCreatedClearsAggregateTypeRepository(): void
+    public function testClearFreshlyCreatedClearsAggregateTypeRepository() : void
     {
         $this->aggregateTypeRepository->clearFreshlyCreated()->shouldBeCalled();
         $this->fixture->clearFreshlyCreated();

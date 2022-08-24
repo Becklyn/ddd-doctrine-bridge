@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Events\Infrastructure\Store\Doctrine;
 
@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2019-08-21
  */
 #[ORM\Entity]
@@ -32,14 +33,14 @@ class DoctrineStoredEventAggregate
     private ?\DateTimeImmutable $updatedTs = null;
 
     #[Orm\PrePersist]
-    public function prePersist(): void
+    public function prePersist() : void
     {
         $this->createdTs = new \DateTimeImmutable();
         $this->updatedTs = $this->createdTs;
     }
 
     #[Orm\PreUpdate]
-    public function preUpdate(): void
+    public function preUpdate() : void
     {
         $this->updatedTs = new \DateTimeImmutable();
     }
@@ -51,24 +52,24 @@ class DoctrineStoredEventAggregate
         $this->version = $version;
     }
 
-    public function id(): string
+    public function id() : string
     {
         return $this->id;
     }
 
-    public function aggregateType(): DoctrineStoredEventAggregateType
+    public function aggregateType() : DoctrineStoredEventAggregateType
     {
         return $this->aggregateType;
     }
 
-    public function version(): int
+    public function version() : int
     {
         return $this->version;
     }
 
-    public function incrementVersion(): self
+    public function incrementVersion() : self
     {
-        $this->version++;
+        ++$this->version;
         return $this;
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Tests\Transactions\Infrastructure\Application\Doctrine;
 
@@ -20,7 +20,7 @@ class DoctrineTransactionManagerTest extends TestCase
 
     private DoctrineTransactionManager $fixture;
 
-    public function setUp(): void
+    protected function setUp() : void
     {
         $this->entityManager = $this->prophesize(EntityManagerInterface::class);
         $this->eventManager = $this->prophesize(EventManager::class);
@@ -28,7 +28,7 @@ class DoctrineTransactionManagerTest extends TestCase
         $this->fixture = new DoctrineTransactionManager($this->entityManager->reveal(), $this->eventManager->reveal(), $this->eventStore->reveal());
     }
 
-    public function testCommitSuccess()
+    public function testCommitSuccess() : void
     {
         $this->entityManager->flush()->shouldBeCalledTimes(1);
         $this->eventStore->clearFreshlyCreated()->shouldBeCalledTimes(1);
@@ -37,7 +37,7 @@ class DoctrineTransactionManagerTest extends TestCase
         $this->fixture->commit();
     }
 
-    public function testCommitFail()
+    public function testCommitFail() : void
     {
         $this->entityManager->flush()->shouldBeCalledTimes(1);
         $exception = new \Exception();
@@ -49,7 +49,7 @@ class DoctrineTransactionManagerTest extends TestCase
         $this->fixture->commit();
     }
 
-    public function testRollback()
+    public function testRollback() : void
     {
         $this->eventStore->clearFreshlyCreated()->shouldBeCalledTimes(1);
         $this->entityManager->clear()->shouldBeCalledTimes(1);

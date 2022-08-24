@@ -1,14 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Transactions\Infrastructure\Application\Doctrine;
 
-use Becklyn\Ddd\Transactions\Application\TransactionManager;
 use Becklyn\Ddd\Events\Application\EventManager;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineEventStore;
+use Becklyn\Ddd\Transactions\Application\TransactionManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2019-06-07
  */
 class DoctrineTransactionManager implements TransactionManager
@@ -20,12 +21,12 @@ class DoctrineTransactionManager implements TransactionManager
     ) {
     }
 
-    public function begin(): void
+    public function begin() : void
     {
         // nothing to actually do here
     }
 
-    public function commit(): void
+    public function commit() : void
     {
         try {
             $this->entityManager->flush();
@@ -39,7 +40,7 @@ class DoctrineTransactionManager implements TransactionManager
         $this->eventManager->flush();
     }
 
-    public function rollback(): void
+    public function rollback() : void
     {
         $this->eventStore->clearFreshlyCreated();
         $this->entityManager->clear();
