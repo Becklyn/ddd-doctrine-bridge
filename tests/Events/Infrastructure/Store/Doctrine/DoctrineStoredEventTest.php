@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class DoctrineStoredEventTest extends TestCase
 {
-    public function testGettersReturnArgumentsPassedToConstructor(): void
+    public function testGettersReturnArgumentsPassedToConstructor() : void
     {
         $eventId = $this->givenAnEventId();
         $aggregate = $this->givenADoctrineStoredEventAggregate();
@@ -21,47 +21,47 @@ class DoctrineStoredEventTest extends TestCase
         $correlationId = $this->givenAnEventId();
         $causationId = $this->givenAnEventId();
         $storedEvent = new DoctrineStoredEvent($eventId, $aggregate, $version, $eventType, $raisedTs, $correlationId, $causationId, $data);
-        $this->assertSame($eventId, $storedEvent->eventId());
-        $this->assertSame($aggregate, $storedEvent->aggregate());
-        $this->assertSame($version, $storedEvent->version());
-        $this->assertSame($eventType, $storedEvent->eventType());
-        $this->assertSame($raisedTs, $storedEvent->raisedTs());
-        $this->assertSame($correlationId, $storedEvent->correlationId());
-        $this->assertSame($causationId, $storedEvent->causationId());
-        $this->assertSame($data, $storedEvent->data());
+        self::assertSame($eventId, $storedEvent->eventId());
+        self::assertSame($aggregate, $storedEvent->aggregate());
+        self::assertSame($version, $storedEvent->version());
+        self::assertSame($eventType, $storedEvent->eventType());
+        self::assertSame($raisedTs, $storedEvent->raisedTs());
+        self::assertSame($correlationId, $storedEvent->correlationId());
+        self::assertSame($causationId, $storedEvent->causationId());
+        self::assertSame($data, $storedEvent->data());
     }
 
-    private function givenAnEventId(): string
+    private function givenAnEventId() : string
     {
-        return uniqid();
+        return \uniqid();
     }
 
-    private function givenADoctrineStoredEventAggregate(): DoctrineStoredEventAggregate
+    private function givenADoctrineStoredEventAggregate() : DoctrineStoredEventAggregate
     {
-        return new DoctrineStoredEventAggregate(uniqid(), new DoctrineStoredEventAggregateType(uniqid(), uniqid()));
+        return new DoctrineStoredEventAggregate(\uniqid(), new DoctrineStoredEventAggregateType(\uniqid(), \uniqid()));
     }
 
-    private function givenAnAggregateVersion(): int
+    private function givenAnAggregateVersion() : int
     {
-        return rand(1, 1000);
+        return \mt_rand(1, 1000);
     }
 
-    private function givenADoctrineStoredEventType(): DoctrineStoredEventType
+    private function givenADoctrineStoredEventType() : DoctrineStoredEventType
     {
-        return new DoctrineStoredEventType(uniqid(), uniqid());
+        return new DoctrineStoredEventType(\uniqid(), \uniqid());
     }
 
-    private function givenARaisedTs(): \DateTimeImmutable
+    private function givenARaisedTs() : \DateTimeImmutable
     {
         return new \DateTimeImmutable();
     }
 
-    private function givenSerializedEventData(): string
+    private function givenSerializedEventData() : string
     {
-        return uniqid();
+        return \uniqid();
     }
 
-    public function testPrePersistSetsCreatedTs(): void
+    public function testPrePersistSetsCreatedTs() : void
     {
         $storedEvent = new DoctrineStoredEvent(
             $this->givenAnEventId(),
@@ -79,8 +79,8 @@ class DoctrineStoredEventTest extends TestCase
         $propertyReflection->setAccessible(true);
         $propertyReflection->getValue($storedEvent);
 
-        $this->assertNull($propertyReflection->getValue($storedEvent));
+        self::assertNull($propertyReflection->getValue($storedEvent));
         $storedEvent->prePersist();
-        $this->assertNotNull($propertyReflection->getValue($storedEvent));
+        self::assertNotNull($propertyReflection->getValue($storedEvent));
     }
 }

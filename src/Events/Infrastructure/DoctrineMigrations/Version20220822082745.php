@@ -12,16 +12,17 @@ use Doctrine\Migrations\AbstractMigration;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2022-08-22
  */
 final class Version20220822082745 extends AbstractMigration
 {
-    public function getDescription(): string
+    public function getDescription() : string
     {
         return 'Introduces correlation and causation IDs to the event store';
     }
 
-    public function up(Schema $schema): void
+    public function up(Schema $schema) : void
     {
         $platform = $this->connection->getDatabasePlatform();
         $isMySql = $platform instanceof MySQLPlatform;
@@ -48,7 +49,7 @@ final class Version20220822082745 extends AbstractMigration
         // no case for SQLite because changes to existing tables are simply done in the migration where the table is created
     }
 
-    public function postUp(Schema $schema): void
+    public function postUp(Schema $schema) : void
     {
         $platform = $this->connection->getDatabasePlatform();
         $isMySql = $platform instanceof MySQLPlatform;
@@ -71,7 +72,7 @@ final class Version20220822082745 extends AbstractMigration
         // no case for SQLite because changes to existing tables are simply done in the migration where the table is created
     }
 
-    public function down(Schema $schema): void
+    public function down(Schema $schema) : void
     {
         $platform = $this->connection->getDatabasePlatform();
         $isMySql = $platform instanceof MySQLPlatform;

@@ -12,6 +12,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2020-10-05
  */
 final class Version20201005084703 extends AbstractMigration
@@ -41,7 +42,7 @@ final class Version20201005084703 extends AbstractMigration
             $this->addSql('ALTER TABLE event_store ADD CONSTRAINT FK_BE4CE95BD0BBCCBE FOREIGN KEY (aggregate_id) REFERENCES event_store_aggregates (id)');
             $this->addSql('ALTER TABLE event_store ADD CONSTRAINT FK_BE4CE95B401B253C FOREIGN KEY (event_type_id) REFERENCES event_store_event_types (id)');
             $this->addSql('ALTER TABLE event_store_aggregates ADD CONSTRAINT FK_3E42E1EAC816D3AF FOREIGN KEY (aggregate_type_id) REFERENCES event_store_aggregate_types (id)');
-        } else if ($isSqlite) {
+        } elseif ($isSqlite) {
             $this->addSql('CREATE TABLE event_store (event_id VARCHAR(36) NOT NULL, aggregate_id VARCHAR(36) DEFAULT NULL, event_type_id VARCHAR(36) DEFAULT NULL, version INTEGER NOT NULL, raised_ts DATETIME(6) NOT NULL, data CLOB NOT NULL, created_ts DATETIME(6) NOT NULL, correlation_id VARCHAR(36) NOT NULL, causation_id VARCHAR(36) NOT NULL, PRIMARY KEY(event_id))');
             $this->addSql('CREATE INDEX IDX_BE4CE95BD0BBCCBE ON event_store (aggregate_id)');
             $this->addSql('CREATE INDEX IDX_BE4CE95B401B253C ON event_store (event_type_id)');
@@ -87,7 +88,7 @@ final class Version20201005084703 extends AbstractMigration
             $this->addSql('DROP TABLE event_store_aggregate_types');
             $this->addSql('DROP TABLE event_store_aggregates');
             $this->addSql('DROP TABLE event_store_event_types');
-        } else if ($isSqlite) {
+        } elseif ($isSqlite) {
             $this->addSql('DROP TABLE event_store');
             $this->addSql('DROP TABLE event_store_aggregate_types');
             $this->addSql('DROP TABLE event_store_aggregates');

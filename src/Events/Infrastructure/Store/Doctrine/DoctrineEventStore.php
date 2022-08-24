@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Events\Infrastructure\Store\Doctrine;
 
@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2019-08-21
  */
 class DoctrineEventStore implements EventStore
@@ -25,7 +26,7 @@ class DoctrineEventStore implements EventStore
     ) {
     }
 
-    public function append(DomainEvent $event): void
+    public function append(DomainEvent $event) : void
     {
         if (!$this->isEnabled) {
             return;
@@ -50,7 +51,7 @@ class DoctrineEventStore implements EventStore
         $this->em->persist($storedEvent);
     }
 
-    public function getAggregateStream(AggregateId $aggregateId): AggregateEventStream
+    public function getAggregateStream(AggregateId $aggregateId) : AggregateEventStream
     {
         $qb = $this->em->createQueryBuilder();
         $qb->select('e')
@@ -70,7 +71,7 @@ class DoctrineEventStore implements EventStore
         return new AggregateEventStream($aggregateId, $storedEvents);
     }
 
-    public function clearFreshlyCreated(): void
+    public function clearFreshlyCreated() : void
     {
         if (!$this->isEnabled) {
             return;

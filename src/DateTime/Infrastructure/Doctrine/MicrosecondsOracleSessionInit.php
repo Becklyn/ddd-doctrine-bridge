@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\DateTime\Infrastructure\Doctrine;
 
@@ -11,6 +11,7 @@ use Doctrine\DBAL\Platforms\OraclePlatform;
  * Includes microsecond support.
  *
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2022-07-12
  */
 class MicrosecondsOracleSessionInit extends OracleSessionInit
@@ -24,7 +25,7 @@ class MicrosecondsOracleSessionInit extends OracleSessionInit
         'NLS_NUMERIC_CHARACTERS' => '.,',
     ];
 
-    public function postConnect(ConnectionEventArgs $args) {
+    public function postConnect(ConnectionEventArgs $args) : void {
         if (!($args->getConnection()->getDatabasePlatform() instanceof OraclePlatform)) {
             return;
         }

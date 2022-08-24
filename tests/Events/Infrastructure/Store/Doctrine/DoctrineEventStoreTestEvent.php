@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
@@ -7,6 +7,7 @@ use Becklyn\Ddd\Events\Domain\EventId;
 
 /**
  * @author Marko Vujnovic <mv@becklyn.com>
+ *
  * @since  2019-08-28
  */
 class DoctrineEventStoreTestEvent extends AbstractDomainEvent
@@ -19,12 +20,12 @@ class DoctrineEventStoreTestEvent extends AbstractDomainEvent
         parent::__construct($id, $raisedTs);
     }
 
-    public function aggregateId(): DoctrineEventStoreTestAggregateId
+    public function aggregateId() : DoctrineEventStoreTestAggregateId
     {
         return $this->aggregateId;
     }
 
-    public function aggregateType(): string
+    public function aggregateType() : string
     {
         return 'DoctrineEventStoreTestAggregate';
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
@@ -7,26 +7,26 @@ use PHPUnit\Framework\TestCase;
 
 class DoctrineStoredEventAggregateTypeTest extends TestCase
 {
-    public function testGettersReturnArgumentsPassedToConstructor(): void
+    public function testGettersReturnArgumentsPassedToConstructor() : void
     {
         $id = $this->givenAnAggregateTypeId();
         $name = $this->givenAnAggregateTypeName();
         $aggregateType = new DoctrineStoredEventAggregateType($id, $name);
-        $this->assertSame($id, $aggregateType->id());
-        $this->assertSame($name, $aggregateType->name());
+        self::assertSame($id, $aggregateType->id());
+        self::assertSame($name, $aggregateType->name());
     }
 
-    private function givenAnAggregateTypeId(): string
+    private function givenAnAggregateTypeId() : string
     {
-        return uniqid();
+        return \uniqid();
     }
 
-    private function givenAnAggregateTypeName(): string
+    private function givenAnAggregateTypeName() : string
     {
-        return uniqid();
+        return \uniqid();
     }
 
-    public function testPrePersistSetsCreatedTs(): void
+    public function testPrePersistSetsCreatedTs() : void
     {
         $aggregateType = new DoctrineStoredEventAggregateType($this->givenAnAggregateTypeId(), $this->givenAnAggregateTypeName());
 
@@ -34,8 +34,8 @@ class DoctrineStoredEventAggregateTypeTest extends TestCase
         $createdTsReflection = $classReflection->getProperty('createdTs');
         $createdTsReflection->setAccessible(true);
 
-        $this->assertNull($createdTsReflection->getValue($aggregateType));
+        self::assertNull($createdTsReflection->getValue($aggregateType));
         $aggregateType->prePersist();
-        $this->assertNotNull($createdTsReflection->getValue($aggregateType));
+        self::assertNotNull($createdTsReflection->getValue($aggregateType));
     }
 }

@@ -1,22 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Becklyn\Ddd\Tests\Events\Infrastructure\Store\Doctrine;
 
 use Becklyn\Ddd\Events\Domain\AggregateEventStream;
 use Becklyn\Ddd\Events\Domain\DomainEvent;
-use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
-use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineEventStore;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEvent;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregate;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateRepository;
+use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventAggregateType;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventType;
 use Becklyn\Ddd\Events\Infrastructure\Store\Doctrine\DoctrineStoredEventTypeRepository;
+use Becklyn\Ddd\Events\Testing\DomainEventTestTrait;
 use Becklyn\Ddd\Identity\Domain\AggregateId;
 use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -37,7 +37,7 @@ class DoctrineEventStoreTest extends TestCase
 
     private DoctrineEventStore $fixture;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->em = $this->prophesize(EntityManagerInterface::class);
         $this->repository = $this->prophesize(ObjectRepository::class);
@@ -55,7 +55,7 @@ class DoctrineEventStoreTest extends TestCase
         );
     }
 
-    public function testAppendPersistsStoredEvent(): void
+    public function testAppendPersistsStoredEvent() : void
     {
         $eventProphecy = $this->prophesize(DomainEvent::class);
         $eventProphecy->id()->willReturn($this->givenAnEventId());
@@ -65,7 +65,7 @@ class DoctrineEventStoreTest extends TestCase
         $event = $eventProphecy->reveal();
 
         $aggregate = $this->prophesize(DoctrineStoredEventAggregate::class);
-        $incrementedVersion = rand(1, 1000);
+        $incrementedVersion = \mt_rand(1, 1000);
         $aggregate->incrementVersion()->will(function () use ($incrementedVersion) {
             $this->version()->willReturn($incrementedVersion);
             return $this;
@@ -75,7 +75,7 @@ class DoctrineEventStoreTest extends TestCase
         $eventType = new DoctrineStoredEventType('foo', 'bar');
         $this->eventTypeRepository->findOneOrCreate($event)->willReturn($eventType);
 
-        $serializedEvent = uniqid();
+        $serializedEvent = \uniqid();
         $this->serializer->serialize($event, 'json')->willReturn($serializedEvent);
 
         $aggregate->incrementVersion()->shouldBeCalledTimes(1);
@@ -100,7 +100,7 @@ class DoctrineEventStoreTest extends TestCase
         $this->fixture->append($event);
     }
 
-    public function testAppendDoesNothingIfStoreIsDisabled(): void
+    public function testAppendDoesNothingIfStoreIsDisabled() : void
     {
         $this->fixture = new DoctrineEventStore(
             $this->em->reveal(),
@@ -115,14 +115,14 @@ class DoctrineEventStoreTest extends TestCase
         $this->fixture->append($this->prophesize(DomainEvent::class)->reveal());
     }
 
-    public function testClearFreshlyCreatedClearsAggregateAndEventTypeRepositories(): void
+    public function testClearFreshlyCreatedClearsAggregateAndEventTypeRepositories() : void
     {
         $this->aggregateRepository->clearFreshlyCreated()->shouldBeCalled();
         $this->eventTypeRepository->clearFreshlyCreated()->shouldBeCalled();
         $this->fixture->clearFreshlyCreated();
     }
 
-    public function testClearFreshlyCreatedDoesNotClearAggregateAndEventTypeRepositoriesIfStoreIsDisabled(): void
+    public function testClearFreshlyCreatedDoesNotClearAggregateAndEventTypeRepositoriesIfStoreIsDisabled() : void
     {
         $this->fixture = new DoctrineEventStore(
             $this->em->reveal(),
@@ -137,7 +137,7 @@ class DoctrineEventStoreTest extends TestCase
         $this->fixture->clearFreshlyCreated();
     }
 
-    public function testGetAggregateStreamReturnsAnAggregateStreamWithEventsDeserializedFromDoctrine(): void
+    public function testGetAggregateStreamReturnsAnAggregateStreamWithEventsDeserializedFromDoctrine() : void
     {
         $aggregateId = $this->givenAnAggregateId();
         $doctrineStoredEvent = $this->givenADoctrineStoredEvent();
@@ -149,25 +149,25 @@ class DoctrineEventStoreTest extends TestCase
         $this->thenAggregateEventStreamShouldContainEvents($aggregateEventStream, [$deserializedEvent]);
     }
 
-    private function givenAnAggregateId(): AggregateId
+    private function givenAnAggregateId() : AggregateId
     {
         $aggregateId = $this->prophesize(AggregateId::class);
         $aggregateId->asString()->willReturn(Uuid::uuid4()->toString());
-        $aggregateId->aggregateType()->willReturn(uniqid());
+        $aggregateId->aggregateType()->willReturn(\uniqid());
         return $aggregateId->reveal();
     }
 
-    private function givenADoctrineStoredEvent(): DoctrineStoredEvent
+    private function givenADoctrineStoredEvent() : DoctrineStoredEvent
     {
         $event = $this->prophesize(DoctrineStoredEvent::class);
-        $event->data()->willReturn(uniqid());
+        $event->data()->willReturn(\uniqid());
         $eventType = $this->prophesize(DoctrineStoredEventType::class);
-        $eventType->name()->willReturn(uniqid());
+        $eventType->name()->willReturn(\uniqid());
         $event->eventType()->willReturn($eventType->reveal());
         return $event->reveal();
     }
 
-    private function givenAQueryBuilderIsCreatedThatReturnsAllDoctrineStoredEventsForAggregate(AggregateId $aggregateId, array $doctrineStoredEvents): void
+    private function givenAQueryBuilderIsCreatedThatReturnsAllDoctrineStoredEventsForAggregate(AggregateId $aggregateId, array $doctrineStoredEvents) : void
     {
         $qb = $this->prophesize(QueryBuilder::class);
         $this->em->createQueryBuilder()->willReturn($qb->reveal());
@@ -187,7 +187,7 @@ class DoctrineEventStoreTest extends TestCase
         $query->execute()->willReturn($doctrineStoredEvents);
     }
 
-    private function givenTheSerializerDeserializesTheDoctrineStoredEvent(DoctrineStoredEvent $doctrineStoredEvent): DomainEvent
+    private function givenTheSerializerDeserializesTheDoctrineStoredEvent(DoctrineStoredEvent $doctrineStoredEvent) : DomainEvent
     {
         $domainEvent = $this->prophesize(DomainEvent::class);
         $this->serializer->deserialize($doctrineStoredEvent->data(), $doctrineStoredEvent->eventType()->name(), 'json')
@@ -195,32 +195,33 @@ class DoctrineEventStoreTest extends TestCase
         return $domainEvent->reveal();
     }
 
-    private function whenGetAggregateStreamIsExecuted(AggregateId $aggregateId): AggregateEventStream
+    private function whenGetAggregateStreamIsExecuted(AggregateId $aggregateId) : AggregateEventStream
     {
         return $this->fixture->getAggregateStream($aggregateId);
     }
 
-    private function thenAggregateEventStreamShouldContainTheAggregateId(AggregateEventStream $aggregateEventStream, AggregateId $aggregateId): void
+    private function thenAggregateEventStreamShouldContainTheAggregateId(AggregateEventStream $aggregateEventStream, AggregateId $aggregateId) : void
     {
-        $this->assertSame($aggregateId, $aggregateEventStream->aggregateId());
+        self::assertSame($aggregateId, $aggregateEventStream->aggregateId());
     }
 
-    private function thenAggregateEventStreamShouldContainEvents(AggregateEventStream $aggregateEventStream, array $events): void
+    private function thenAggregateEventStreamShouldContainEvents(AggregateEventStream $aggregateEventStream, array $events) : void
     {
         $eventsFound = 0;
+
         foreach ($aggregateEventStream->events() as $eventFromStream) {
             foreach ($events as $event) {
                 if ($eventFromStream === $event) {
-                    $eventsFound++;
+                    ++$eventsFound;
                     break;
                 }
             }
         }
 
-        $this->assertCount($eventsFound, $events);
+        self::assertCount($eventsFound, $events);
     }
 
-    public function testGetAggregateStreamReturnsAnAggregateStreamWithNoEventsIfQueryReturnsNoEvents(): void
+    public function testGetAggregateStreamReturnsAnAggregateStreamWithNoEventsIfQueryReturnsNoEvents() : void
     {
         $aggregateId = $this->givenAnAggregateId();
         $this->givenAQueryBuilderIsCreatedThatReturnsAllDoctrineStoredEventsForAggregate($aggregateId, []);
@@ -230,8 +231,8 @@ class DoctrineEventStoreTest extends TestCase
         $this->thenAggregateEventStreamShouldContainNoEvents($aggregateEventStream);
     }
 
-    private function thenAggregateEventStreamShouldContainNoEvents(AggregateEventStream $aggregateEventStream): void
+    private function thenAggregateEventStreamShouldContainNoEvents(AggregateEventStream $aggregateEventStream) : void
     {
-        $this->assertEmpty($aggregateEventStream->events());
+        self::assertEmpty($aggregateEventStream->events());
     }
 }
