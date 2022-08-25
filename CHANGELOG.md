@@ -1,3 +1,8 @@
+3.0.1
+=======
+
+* (feature) Added support 4.0 series of becklyn/ddd-core
+
 3.0.0
 =======
 
