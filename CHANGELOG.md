@@ -1,3 +1,8 @@
+3.0.2
+=======
+
+* (feature) Added support 3.0 series of doctrine/persistence
+
 3.0.1
 =======
 
