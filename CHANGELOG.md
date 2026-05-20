@@ -1,3 +1,11 @@
+3.1.0
+=======
+
+* (bc) Raised minimum PHP version requirement to 8.2
+* (feature) Added support for Symfony 7.x
+* (feature) Added support for illuminate/collections ^10.0 and ^11.0
+* (improvement) Added support for PHPUnit ^10.0 and ^11.0
+
 3.0.2
 =======
 
